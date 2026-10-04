@@ -1,0 +1,79 @@
+microservices software architecture divided by modules with specific task 
+
+now are described every file and module on this software architecture
+
+app.py ----- file that starts the GUI it compiles when the other modules has done their job
+
+src/ ----- the source directory, it stores all the working modules for calculations and GUI 
+
+    # module 1
+    models/ ----- this directory is focused on defining all the data and variables the software will use later on the process
+        __init__.py ----- file required for a python project (tells python to treat the directory like a package)
+        financial_data.py ----- file that defines concepts as 'assets' or 'liabilties' 
+        financial_statements.py ----- this file define what a financial_statements contains as 'Balance Sheet' 
+        metrics.py ----- this file defines the ratios calculated for the insurance company
+        validation.py ----- reviews the financial information and looks for irregularities and errors on the information
+        analysis_results.py ----- condenses the previous information into one package that communicates with the rest of the software
+
+    # module 2
+    ingestion/  ----- this module will let the software to read most common file types for financial information
+        __init__.py 
+        excel_reader.py ----- read xlsx files 
+        csv_reader.py ----- read csv files 
+        pdf_reader.py ----- read pdf files 
+
+    # module 3
+    normalization/ ----- normalize the differents ways a same concept can be interpretated, example: 'assets' and 'activo'
+        __init__.py 
+        mappings.py ----- gives the same label to the different ways a concept can be written
+        labelmap.py ----- asociates values to the mappings labels 
+        normalizer.py ----- writes the labelmap objects in the same accounting format
+
+    # module 4
+    validation/ 
+        __init__.py
+        validator.py ----- saves the information from math_rules and accounting_rules 
+        math_rules ----- validates the software not making mistakes like diving by cero and c
+        accounting_rules ----- validates rules as "assets equals to liabilties plus equity"
+
+    # module 5 
+    financial_ratios/ ----- calculates the main objetive of the software, financial ratios for the insurence company.
+        __init__.py 
+        (pending collection of the ratios that will be calculated)
+
+    # module 6
+    interpretation/ ----- provides information that helps to understand the ratios values 
+        __init__.py 
+        interpreter.py ----- "translates" the number into concepts can be comprended by any user
+        thresholds.py ----- asociates labels as "healthy" or "high risk" to different values measured 
+
+    # module 7
+    orchestrator/ ----- will cordinate every task for every module on the project 
+        __init__.py
+        caller.py ----- orchest the project, call for every task in order to be compiled
+
+    # module 8
+    interface/ ----- what user sees 
+        __init__.py
+        (to define the range for this module at least must provide a dashboard and the inserting file module with editing option)
+
+# module 9
+tests/ ----- will run a test to check the software keeps working as expected 
+    (to define all the modules that must be tested)
+
+# module 10
+data/ ----- collects the data recieved by the user
+    raw/ ----- no processed data
+    processed/ ----- processed data
+
+# module 11
+docs/
+    architecture.txt ----- the tree of the project 
+    financial_metrics.txt ----- account formulas used 
+    data_dictionary.txt ----- every concept used on the project 
+    user_guide.txt ----- guide for those who review this project
+
+.gitignore 
+requirements.txt
+README.md
+LICENSE

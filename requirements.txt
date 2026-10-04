@@ -1,0 +1,7 @@
+This project must have a virtual environment installed 
+
+pandas 3.0.6
+matplotlib 3.11.2
+openpyxl 3.1.5
+pypdf 6.19.0
+
