@@ -8,11 +8,8 @@ def safe_divide(numerator, denominator):
 def calculate_ratios(data):
     results = []
     def add(name, value, formula, notes=None):
-        # Only expose ratios for which every required input is available.
-        if value is None:
-            return
-        results.append(RatioResult(name=name, value=value, formula=formula,
-                                   status="calculated", notes=notes or []))
+        status = "calculated" if value is not None else "not_calculable"
+        results.append(RatioResult(name=name, value=value, formula=formula, status=status, notes=notes or []))
 
     add("current_ratio", safe_divide(data.get("current_assets"), data.get("current_liabilities")),
         "Current assets / Current liabilities", ["Not meaningful if current liabilities are unavailable or zero."])
@@ -22,8 +19,7 @@ def calculate_ratios(data):
         "Total liabilities / Total assets")
     add("equity_ratio", safe_divide(data.get("total_equity"), data.get("total_assets")),
         "Total equity / Total assets")
-    add("net_profit_margin", safe_divide(data.get("net_income"), data.get("revenue")),
-        "Net income / Revenue")
+    add("net_profit_margin", safe_divide( data.get("net_income"), data.get("net_premiums_earned") ),"Net income / Net premiums earned")
     add("return_on_assets", safe_divide(data.get("net_income"), data.get("total_assets")),
         "Net income / Total assets (period-end proxy; average assets preferred)")
     add("return_on_equity", safe_divide(data.get("net_income"), data.get("total_equity")),
@@ -32,6 +28,9 @@ def calculate_ratios(data):
     premiums = data.get("net_premiums_earned")
     claims = data.get("claims_incurred")
     expenses = data.get("underwriting_expenses")
+    if expenses is None:
+        acquisition = data.get("acquisition_costs")
+        expenses = acquisition
     add("claims_ratio", safe_divide(claims, premiums), "Claims incurred / Net premiums earned")
     add("expense_ratio", safe_divide(expenses, premiums), "Underwriting expenses / Net premiums earned")
     combined = None

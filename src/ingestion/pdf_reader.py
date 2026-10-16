@@ -3,7 +3,7 @@ import re
 import pdfplumber
 from .common import parse_number
 
-_NUMBER_AT_END = re.compile(r"(\(?-?[$€£]?\s*\d[\d,. ]*(?:\d)?\)?)\s*$")
+_NUMBER_AT_END = re.compile( r"(\(?-?[$€£]?\s*\d[\d,. ]*\d\)?|\(?-?[$€£]?\d\)?)\s*$")
 
 
 def _line_to_item(text, location):
